@@ -40,6 +40,7 @@ jobs:
         run: $GITHUB_WORKSPACE/.github/scripts/build.sh
 
       - name: copy artifact to root
+        working-directory: ${{ env.applicationfolder }}/target
         run: cp *.war $GITHUB_WORKSPACE       
 
       - name: Compress
