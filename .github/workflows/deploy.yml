@@ -39,16 +39,15 @@ jobs:
         working-directory: ${{ env.applicationfolder }}
         run: $GITHUB_WORKSPACE/.github/scripts/build.sh
 
+      - name: copy war file
+        run: cp ${{ env.applicationfolder }}/target/*.war $GITHUB_WORKSPACE 
+
       - name: Compress
         uses: TonyBogdanov/zip@1.0
         with:
             args: zip -qq -r ./myapp-${{ github.sha }}.zip ./aws ./appspec.yml *.war 
 
-      - name: Copy artifact to root
-        working-directory: ${{ env.applicationfolder }}/target
-        run: cp *.war $GITHUB_WORKSPACE       
-
-
+  
       - name: Upload Artifact to s3
         run: aws s3 cp myapp-${{ github.sha }}.zip s3://${{ env.S3BUCKET }}/
     
