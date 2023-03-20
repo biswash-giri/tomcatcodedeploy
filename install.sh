@@ -15,7 +15,7 @@ sudo systemctl start tomcat9
 sudo apt-get update
 sudo apt-get install -y ruby-full wget
 cd /home/ubuntu
-wget https://aws-codedeploy-us-east-1.s3.us-east-1.amazonaws.com/latest/install
+wget https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
 chmod +x ./install
 sudo ./install auto
 sudo service codedeploy-agent start
