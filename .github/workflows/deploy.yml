@@ -38,16 +38,19 @@ jobs:
         id: package
         working-directory: ${{ env.applicationfolder }}
         run: $GITHUB_WORKSPACE/.github/scripts/build.sh
-        
-#       - name: Compress
-#         uses: TonyBogdanov/zip@1.0
-#         with:
-#             args: zip -qq -r ./archive.zip ./aws ./appspec.yml *.war
-        
+
+      - name: copy artifact to root
+        run: cp *.war $GITHUB_WORKSPACE       
+
+      - name: Compress
+        uses: TonyBogdanov/zip@1.0
+        with:
+            args: zip -qq -r ./myapp-${{ github.sha }}.zip ./aws ./appspec.yml *.war 
 
       - name: Upload Artifact to s3
         working-directory: ${{ env.applicationfolder }}/target
-        run: aws s3 cp *.war s3://${{ env.S3BUCKET }}/
+        run: aws s3 cp myapp-${{ github.sha }}.zip s3://${{ env.S3BUCKET }}/
+    
         
   deploy:
     needs: build
@@ -66,4 +69,5 @@ jobs:
     - run: |
         echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}"
         commit_hash=`git rev-parse HEAD`
-        aws deploy create-deployment --application-name javatomcat --deployment-group-name tomcatjava-deploy-grp --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures
+       # aws deploy create-deployment --application-name javatomcat --deployment-group-name tomcatjava-deploy-grp --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures
+        aws deploy create-deployment --application-name javatomcat --deployment-group-name tomcatjava-deploy-grp --s3-location bucket=${{ env.S3BUCKET }},key=myapp-${{ github.sha }}.zip,bundleType=zip
