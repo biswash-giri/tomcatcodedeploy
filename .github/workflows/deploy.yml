@@ -41,6 +41,8 @@ jobs:
 
       - name: copy war file
         run: cp ${{ env.applicationfolder }}/target/*.war $GITHUB_WORKSPACE 
+        run: ls
+        run: ls $GITHUB_WORKSPACE
 
       - name: Compress
         uses: TonyBogdanov/zip@1.0
