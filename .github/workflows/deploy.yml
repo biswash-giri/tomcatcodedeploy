@@ -41,14 +41,15 @@ jobs:
 
       - name: copy war file
         run: |
-          cp ${{ env.applicationfolder }}/target/*.war $GITHUB_WORKSPACE 
+          cp ${{ env.applicationfolder }}/target/*.war $GITHUB_WORKSPACE
+          cp ${{ env.applicationfolder }}/target/*.war $GITHUB_WORKSPACE/aws 
           ls
           ls $GITHUB_WORKSPACE
 
       - name: Compress
         uses: TonyBogdanov/zip@1.0
         with:
-            args: zip -qq -r ./myapp-${{ github.sha }}.zip ./aws ./appspec.yml *.war 
+            args: zip -qq -r ./myapp-${{ github.sha }}.zip ./aws ./appspec.yml ./*.war 
 
   
       - name: Upload Artifact to s3
