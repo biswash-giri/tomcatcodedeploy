@@ -41,7 +41,7 @@ jobs:
 
       - name: copy war file
         run: |
-          cp ${{ env.applicationfolder }}/target/*.war $GITHUB_WORKSPACE
+          cp ${{ env.applicationfolder }}/target/*.war $GITHUB_WORKSPACE/
           cp ${{ env.applicationfolder }}/target/*.war $GITHUB_WORKSPACE/aws 
           ls
           ls $GITHUB_WORKSPACE
