@@ -73,4 +73,4 @@ jobs:
     - run: |
         echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}"
         commit_hash=`git rev-parse HEAD`
-        aws deploy create-deployment --application-name javatomcat --deployment-group-name tomcatjava-deploy-grp --s3-location bucket=${{ env.S3BUCKET }},key=myapp-${{ github.sha }}.zip,bundleType=zip
+        aws deploy create-deployment --application-name javatomcat --deployment-group-name instancedeploy --s3-location bucket=${{ env.S3BUCKET }},key=myapp-${{ github.sha }}.zip,bundleType=zip
